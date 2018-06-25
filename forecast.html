@@ -1,12 +1,15 @@
 <html>
     <head>
-        <script src="js/forecastchart.js">
-        </script>
-        <link rel="stylesheet" href="chart.css">
+        <meta charset="UTF-8">  
+        <link rel="stylesheet" href="charts.css">
     </head>
     <body>
-        <canvas id="forecastchart" width="50%" height="50%">
-
-        </canvas>
+        <div class="chart-container">
+            <canvas id="forecastchart" width="1000px" height="500"></canvas>
+        </div>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+        <script src="js/forecastchart.js"></script>
+        
     </body>
 </html>
