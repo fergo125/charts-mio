@@ -26,31 +26,72 @@ function renderChart(data){
     let waves = data.map(x=> x.wave_height_sig);
     console.log(waves);
     
-    let dates_scale = Chart.Scale.extend({});
-    let sighight_scale = Chart.Scale.extend({});
-    let waves_scale = Chart.Scale.extend({});
-    let dir_scale = Chart.Scale.extend({});
-    let period_scale = Chart.Scale.extend({});
+    // let dates_scale = Chart.Scale.extend({});
+    // Chart.scaleService.registerScaleType('myScale', MyScale, defaultConfigObject);
+    // let sighight_scale = Chart.Scale.extend({});
+    // let waves_scale = Chart.Scale.extend({});
+    // let dir_scale = Chart.Scale.extend({});
+    // let period_scale = Chart.Scale.extend({});
 
+    console.log("Charts ")
     options= {
         responsive:true, 
         maintainAspectRatio: false,
-        };
+    };
     let chart_options = {
         type: 'bar',
         data: {
-            labels:{},
-            datasets: [{
+            // labels:dates,
+            datasets: [
+                {
                     label:"Altura significativa de la ola",
                     backgroundColor: '#52C6FF',
                     borderColor: '#52C6FF',
-                    data: waves
-                }]
+                    data: waves,
+                    yAxisID:"y-axis"
+                },
+            ]
         },
-        options: options
+        options: {
+            responsive:true, 
+            maintainAspectRatio: false,
+            legend:{
+                display:true,
+                position:"left",
+                labels: {
+                    boxWidth:0,
+                    rotation: 180
+                }
+            },
+            // legendCallback: function(chart) {
+            //     return "<p> Altura siginificativa de la ola</p>";
+            //    },
+            scales:{
+                xAxes:[
+                    {
+                    type:'category',
+                    position:"top",
+                    labels:dates,
+                    label: "Hora"
+                }
+            ],
+                yAxes:[
+                    {
+                    id:"y-axis",
+                    type:'linear',
+                    postion:"left",
+                    ticks:{
+                        min:0,
+                        max:3
+                    }
+                },
+            ]
+            }
+        }
     };
     var element = document.getElementById("forecastchart");
     var chart = new Chart(element,chart_options);
+    chart.generateLegend();
 }
 function main(){
     var data = axios.get("https://miocimar-test.herokuapp.com/api/local_forecasts/15/weekly_view/")
