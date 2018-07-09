@@ -1,8 +1,19 @@
 .chart-container{
     overflow-x: scroll; 
-    width: 900px;
-    height: 400px;
+    width: 1000px;
+    height: 2000px;
     margin: auto;
 }
-
-.bar { fill: steelblue; }
+.axis-top path, .axis-top .tick line
+{
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    stroke-width: 0px;
+    height: 0px;
+  }
+.background-rect{
+    fill: #F9F9F9;
+}
+.bar-sig { fill: #0097E2; }
+.bar-max { fill: #054477; }
