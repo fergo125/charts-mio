@@ -27,6 +27,11 @@ function renderChart(data){
     let waves_max = data.map(x=> x.wave_height_max);
     let waves_period = data.map(x=> x.wave_period);
     let dates_days = []
+
+    console.log("Charts ")
+    var margin = {top: 20, right: 20, bottom: 72, left: 180},
+    width = 960 - margin.left - margin.right,
+    height = 350 - margin.top - margin.bottom;
     
     console.log(waves_period);
     console.log(waves_sig);
@@ -49,10 +54,7 @@ function renderChart(data){
     // let dir_scale = Chart.Scale.extend({});
     // let period_scale = Chart.Scale.extend({});
 
-    console.log("Charts ")
-    var margin = {top: 80, right: 20, bottom: 72, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 350 - margin.top - margin.bottom;
+
 
 // set the ranges
 var x_dates = d3.scaleBand()
@@ -69,7 +71,6 @@ var x_period = d3.scaleBand()
             .padding(0.1);
 var x_days = d3.scaleBand()
             .range([0,width])
-            .padding(0.1);
 var y = d3.scaleLinear()
           .range([height, 0]);
           
@@ -101,11 +102,23 @@ var svg = d3.select("#forecastchart").append("svg")
   
 //   svg.append("g").selectAll("g")
 //   ;
-  let rect_g = svg.append("g").selectAll("g");
-  rect_g.data(d3.stack().keys(["wave_height_sig","wave_height_max"])(format_data))
+//   let rect_g = svg.append("g").selectAll("g");
+// svg.append("g").data(dates_days).enter().append("rect")
+// .attr("class", "background-rect")
+// .attr("x", function(d){console.log(d);return x_days(d);})
+// .attr("width", x_days.bandwidth())
+// .attr("y", 100 )
+// .attr("height", function(d,i){ return (i%2===1)?height:0});
+// //   svg.append("g").selectAll("g").data(dates_days).enter().selectAll(".bar").append("rect")
+//         //   .attr("class", "background-rect")
+//         //   .attr("x", function(d){console.log(d);return x_days(d);})
+//         //   .attr("width", x_days.bandwidth())
+//         //   .attr("y", 0 )
+//         //   .attr("height", function(d,i){ return (i%2===1)?height:0});
+  svg.append("g").selectAll("g").data(d3.stack().keys(["wave_height_sig","wave_height_max"])(format_data))
   .enter().append("g")
   .selectAll(".bar")
-      .data(function(d){return d;})
+    .data(function(d){return d;})
     .enter().append("rect")
       .attr("class", (d)=>(d[0]==0?"bar-sig":"bar-max"))
       .attr("x", function(d, i) { _x = x_dates(new Date(d.data.date));return _x; })
@@ -113,15 +126,8 @@ var svg = d3.select("#forecastchart").append("svg")
       .attr("y", function(d) { _y = y(d[1]);return _y; })
       .attr("height", function(d) { return y(d[0]) - y(d[1]); });
     console.log(dates_days);
-rect_g.data(dates_days)
-  .enter().append("g")
-  .selectAll(".bar").append("rect")
-      .attr("class", "background-rect")
-      .attr("x", function(d){console.log(d);return x_days(d);})
-      .attr("width", x_days.bandwidth())
-      .attr("y", 0 )
-      .attr("height", height);
     
+        
   // add the x Axis
   svg.append("g")
       .attr("transform", "translate(0,20)")
@@ -143,6 +149,49 @@ rect_g.data(dates_days)
       .attr("transform", "translate(0,"+(height+lines_margin*2)+")")
       .attr("class","axis-top")
       .call(d3.axisBottom(x_period).tickFormat(d3.format(",.0f")));
+    
+    svg.append("text")
+      .attr("y", 0)
+      .attr("x", -3/4*margin.left)
+      .attr("dy", "1em")
+      .attr("class","axis-tag")
+      .style("text-anchor", "middle")
+      .text("Día"); 
+    
+    svg.append("text")
+      .attr("y", 20)
+      .attr("x", -11/16*margin.left)
+      .attr("dy", "1em")
+      .attr("class","axis-tag")
+      .style("text-anchor", "middle")
+      .text("Hora");   
+
+    svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    // .attr("x",-height*9/13)
+    .attr("x",0)
+    .attr("dy", "1em")
+    .attr("class","axis-tag wave")
+    .style("text-anchor", "middle")
+    .text("Altura de la Ola");   
+
+    svg.append("text")
+    .attr("y", 0 - margin.left)
+    .attr("x",-height*5/7)
+    .attr("dy", "1em")
+    .attr("class","axis-tag")
+    .style("text-anchor", "middle")
+    .text("Día");
+    
+    svg.append("text")
+    .attr("y", 100)
+    .attr("x", -margin.left)
+    .attr("dy", "1em")
+    .attr("class","axis-tag")
+    .style("text-anchor", "middle")
+    .text("Altura significativa");  
+    
 //   add the y Axis
 //   svg.append("g")
 //       .call(d3.axisLeft(y));
