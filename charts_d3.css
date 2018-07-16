@@ -12,15 +12,49 @@
     stroke-width: 0px;
     height: 0px;
     font-size: 10pt;
+    font-family: 'Avenir';
+  }
+
+  .axis-top.days{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800
+  }
+  .axis-top.hours{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 600
+  }
+  .axis-top.p{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+    font-size: 9pt;
+  }
+
+  .axis-top.hs text{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+    fill: #0097E2;
+    font-size: 9pt;
+  }
+  .axis-top.hm text{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+    fill:#054477;
+    font-size: 9pt;
+  }
+  .axis-top.p{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800
   }
 .background-rect{
     fill: #F9F9F9;
 }
 .axis-tag{
     font-family: 'Avenir';
+    text-anchor: end;
 }
 .axis-tag.wave{
     Color: #000000;
+    text-anchor: middle
 }
 .bar-sig { fill: #0097E2; }
 .bar-max { fill: #054477; }
