@@ -56,5 +56,14 @@
     Color: #000000;
     text-anchor: middle
 }
+
+.axis-tag.hs-tag{
+  fill:#0097E2;
+}
+
+.axis-tag.hm-tag{
+  fill:#054477;
+}
+
 .bar-sig { fill: #0097E2; }
 .bar-max { fill: #054477; }
