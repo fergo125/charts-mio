@@ -26,20 +26,17 @@
   .axis-top.p{
     font-family: 'Avenir Black','Avenir';
     font-weight: 800;
-    font-size: 9pt;
   }
 
   .axis-top.hs text{
     font-family: 'Avenir Black','Avenir';
     font-weight: 800;
     fill: #0097E2;
-    font-size: 9pt;
   }
   .axis-top.hm text{
     font-family: 'Avenir Black','Avenir';
     font-weight: 800;
     fill:#054477;
-    font-size: 9pt;
   }
   .axis-top.p{
     font-family: 'Avenir Black','Avenir';
@@ -51,10 +48,16 @@
 .axis-tag{
     font-family: 'Avenir';
     text-anchor: end;
+    font-size: 9pt; 
 }
+.bottom-section.axis-top{
+  font-size: 8pt;
+}
+
 .axis-tag.wave{
     Color: #000000;
-    text-anchor: middle
+    text-anchor: middle;
+    font-weight: bold;
 }
 
 .axis-tag.hs-tag{
