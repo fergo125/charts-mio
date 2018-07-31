@@ -1,23 +1,4 @@
 
-
-// {
-//     // The type of chart we want to create
-//     type: 'line',
-
-//     // The data for our dataset
-//     data: {
-//         labels: ["January", "February", "March", "April", "May", "June", "July"],
-//         datasets: [{
-//             label: "My First dataset",
-//             backgroundColor: 'rgb(255, 99, 132)',
-//             borderColor: 'rgb(255, 99, 132)',
-//             data: [0, 10, 5, 2, 20, 30, 45],
-//         }]
-//     },
-
-//     // Configuration options go here
-//     options: {}
-// }
 function renderChart(data){
     console.log("Rendering")
     //data_waves = data.map(x => ({"date":x.date,"wave_height_sig":x.wave_height_sig}))
@@ -36,7 +17,7 @@ function renderChart(data){
     let total_width = 960;
     let total_height = 300;
     let width_sections = [total_width*0.14,total_width*0.01,total_width*0.85];
-    let height_sections = [total_height*0.15,total_height*0.6, total_height*0.25];
+    let height_sections = [total_height*0.15,total_height*0.5, total_height*0.35];
     
     let width_offset = 0;
     width_sections= width_sections.map((v,i)=>{let v_o = width_offset; width_offset += v; return v_o})
@@ -56,17 +37,8 @@ function renderChart(data){
             dates_days.push(dates[date]);
         }
     }
-    // let dates_scale = Chart.Scale.extend({});
-    // Chart.scaleService.registerScaleType('myScale', MyScale, defaultConfigObject);
-    // let sighight_scale = Chart.Scale.extend({});
-    // let waves_scale = Chart.Scale.extend({});
-    // let dir_scale = Chart.Scale.extend({});
-    // let period_scale = Chart.Scale.extend({});
-
-
-
 // set the ranges
-bar_padding = 0.2
+bar_padding = 0.2;
 
 var x_dates = d3.scaleBand()
           .range([width_sections[2],total_width])
@@ -105,9 +77,8 @@ var svg = d3.select("#forecastchart").append("svg")
 
 // get the data
   // format the data
-  lines_margin = 23
+  lines_margin = 23;
   format_data = data.map(d =>{d.wave_height_max = d.wave_height_max - d.wave_height_sig;
-    // d.date =  d.date.getHours()%2,
     return d;})
   console.log("Formatted data:",format_data)
   // Scale the range of the data in the domains
@@ -120,26 +91,6 @@ var svg = d3.select("#forecastchart").append("svg")
 
   y.domain([0, d3.max(waves_max) + 1.5]);
 
-
-  // append the rectangles for the bar chart
-  
-//   svg.append("g").selectAll("g")
-//   ;
-//   let rect_g = svg.append("g").selectAll("g");
-// svg.append("g").data(dates_days).enter().append("rect")
-// .attr("class", "background-rect")
-// .attr("x", function(d){console.log(d);return x_days(d);})
-// .attr("width", x_days.bandwidth())
-// .attr("y", 100 )
-// .attr("height", function(d,i){ return (i%2===1)?height:0});
-// //   svg.append("g").selectAll("g").data(dates_days).enter().selectAll(".bar").append("rect")
-//         //   .attr("class", "background-rect")
-//         //   .attr("x", function(d){console.log(d);return x_days(d);})
-//         //   .attr("width", x_days.bandwidth())
-//         //   .attr("y", 0 )
-//         //   .attr("height", function(d,i){ return (i%2===1)?height:0});
-console.log(d3.stack().keys(["wave_height_sig","wave_height_max","date"])(format_data));
-  console.log(d3.stack().keys(["wave_height_sig","wave_height_max","date"])(format_data));
   svg.append("g").selectAll("g").data(dates_days).enter().append("rect").
   attr("class", "background-rect")
           .attr("x", function(d){console.log(d);return x_days(d);})
@@ -163,11 +114,7 @@ console.log(d3.stack().keys(["wave_height_sig","wave_height_max","date"])(format
       .attr("x", function(d, i) { _x = x_dates(new Date(d.data.date));return _x; })
       .attr("width", x_dates.bandwidth())
       .attr("y", function(d) { _y = y(d[1]);return _y; })
-      .attr("height", function(d) { return y(d[0]) - y(d[1]); });
-    console.log(dates_days);
-    console.log((total_height-height_sections[0])*(2/3));
-    console.log(height_sections[0]);
-    
+      .attr("height", function(d) { return y(d[0]) - y(d[1]); });    
 
   // add the x Axis
   svg.append("g")
@@ -183,20 +130,43 @@ console.log(d3.stack().keys(["wave_height_sig","wave_height_max","date"])(format
       .attr("class","bottom-section axis-top hs")
       .call(d3.axisBottom(x_sig).tickFormat(d3.format(",.1f")));
     svg.append("g")
-      .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(1/4))+")")
+      .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(1/5))+")")
       .attr("class","bottom-section axis-top hm")
       .call(d3.axisBottom(x_max).tickFormat(d3.format(",.1f")));
     svg.append("g")
-      .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(3/4))+")")
+      .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(4/5))+")")
       .attr("class","bottom-section axis-top p")
-      .call(d3.axisBottom(x_period).tickFormat(d3.format(",.0f")));
+	  .call(d3.axisBottom(x_period).tickFormat(d3.format(",.0f")));
+	// svg.append("g")
+    //   .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(2/5))+")")
+    //   .attr("class","bottom-section axis-top arrows")
+	//   .call(d3.axisBottom(x_period).tickFormat(d3.format("0,.0f")));
+	// .enter().append("svg:image").attr("xlink:href","flecha_2.svg")
+	svg.append("g").selectAll("g").data(dir).enter()
+	.append("svg:image")
+	.attr("xlink:href","flecha_2.svg")
+	.attr("transform",(d,i)=>{
+		console.log("Inserting row");
+		x_pos = x_dates(dates[i]) + 15;
+		y_pos = height_sections[2]+(total_height-height_sections[2])*(2/5) + 15;
+		transformation = "rotate("+ d +" "+x_pos+" "+y_pos+")";
+		// transformation = "rotate(90)";
+		console.log(transformation);
+		return transformation;
+	})
+	.attr("x",(d,i)=>{
+		return x_dates(dates[i]) + 7.5;
+	})
+	.attr("y",height_sections[2]+(total_height-height_sections[2])*(2/5) +2.5)
+	.attr("width","15")
+	.attr("height","15");
+
     svg.append("g")
-      .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(2/4))+")")
+      .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(3/5))+")")
       .attr("class","bottom-section axis-top p")
       .call(d3.axisBottom(x_direction).tickFormat((d)=>{
         dir = ((d-180)<0)? d+180: d-180; 
         // Tanto el rango como el label es hacía donde va el vector. 
-
         if(348.75 < dir || dir <= 11.25)return 'N';
         if(11.25 < dir && dir <= 33.75)return 'NNE';
         if(33.75 < dir && dir <= 56.25)return 'NE';
@@ -232,8 +202,8 @@ console.log(d3.stack().keys(["wave_height_sig","wave_height_max","date"])(format
 
     svg.append("text")
     .attr("transform", "rotate(-90)")
-    .attr("y", height_sections[2]*1/2+5)
-    .attr("x", -45 -width_sections[1])
+    .attr("y", height_sections[2]*3/5+5)
+    .attr("x", -15 -width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag wave")
     .text("Altura de la Ola");   
@@ -246,21 +216,21 @@ console.log(d3.stack().keys(["wave_height_sig","wave_height_max","date"])(format
     .text("Altura Significativa");  
 
     svg.append("text")
-    .attr("y",(height_sections[2]+(total_height-height_sections[2])*(1/4) +5))
+    .attr("y",(height_sections[2]+(total_height-height_sections[2])*(1/5) +5))
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag hm-tag")
     .text("Altura Maxima");  
 
     svg.append("text")
-    .attr("y", (height_sections[2]+(total_height-height_sections[2])*(2/4) +5))
+    .attr("y", (height_sections[2]+(total_height-height_sections[2])*(2/5) +5))
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag")
     .text("Dirección");
     
     svg.append("text")
-    .attr("y", (height_sections[2]+(total_height-height_sections[2])*(3/4)+5))
+    .attr("y", (height_sections[2]+(total_height-height_sections[2])*(4/5)+5))
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag")

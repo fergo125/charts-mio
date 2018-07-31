@@ -1,0 +1,72 @@
+.chart-container{
+    overflow-x: scroll; 
+    width: 1000px;
+    height: 2000px;
+    margin: auto;
+}
+.axis-top path, .axis-top .tick line
+{
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    stroke-width: 0px;
+    height: 0px;
+    font-size: 10pt;
+    font-family: 'Avenir';
+  }
+
+  .axis-top.days{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800
+  }
+  .axis-top.hours{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 600
+  }
+  .axis-top.p{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+  }
+
+  .axis-top.speed text{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+    fill: #10AF90;
+  }
+  .axis-top.burst text{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+    fill:#025B4A;
+  }
+  .axis-top.p{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800
+  }
+.background-rect{
+    fill: #f6f6f6;
+}
+.axis-tag{
+    font-family: 'Avenir';
+    text-anchor: end;
+    font-size: 9pt; 
+}
+.bottom-section.axis-top{
+  font-size: 8pt;
+}
+
+.axis-tag.wave{
+    Color: #000000;
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+.axis-tag.speed{
+  fill:#10AF90;
+}
+
+.axis-tag.burst{
+  fill:#025B4A;
+}
+
+.bar-sig { fill: #0097E2; }
+.bar-max { fill: #025B4A; }
