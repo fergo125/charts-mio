@@ -142,25 +142,25 @@ var svg = d3.select("#forecastchart").append("svg")
     //   .attr("class","bottom-section axis-top arrows")
 	//   .call(d3.axisBottom(x_period).tickFormat(d3.format("0,.0f")));
 	// .enter().append("svg:image").attr("xlink:href","flecha_2.svg")
+	let arrow_width = 15;
+	let arrow_height = 15;
+	let arrow_margin_top = 5;
+	let arrow_margin_left = 5;
 	svg.append("g").selectAll("g").data(dir).enter()
 	.append("svg:image")
 	.attr("xlink:href","flecha_2.svg")
 	.attr("transform",(d,i)=>{
-		console.log("Inserting row");
-		x_pos = x_dates(dates[i]) + 15;
-		y_pos = height_sections[2]+(total_height-height_sections[2])*(2/5) + 15;
+		x_pos = x_dates(dates[i]) + arrow_margin_left + arrow_width/2;
+		y_pos = height_sections[2]+(total_height-height_sections[2])*(2/5) + arrow_margin_top + arrow_height/2;
 		transformation = "rotate("+ d +" "+x_pos+" "+y_pos+")";
-		// transformation = "rotate(90)";
-		console.log(transformation);
 		return transformation;
 	})
 	.attr("x",(d,i)=>{
-		return x_dates(dates[i]) + 7.5;
+		return x_dates(dates[i]) + arrow_margin_left ;
 	})
-	.attr("y",height_sections[2]+(total_height-height_sections[2])*(2/5) +2.5)
+	.attr("y",height_sections[2]+(total_height-height_sections[2])*(2/5) + arrow_margin_top)
 	.attr("width","15")
 	.attr("height","15");
-
     svg.append("g")
       .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(3/5))+")")
       .attr("class","bottom-section axis-top p")

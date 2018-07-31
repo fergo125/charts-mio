@@ -110,6 +110,7 @@ var svg = d3.select("#forecastchart").append("svg")
       .attr("height", function(d) { return y(d[0]) - y(d[1]); });    
 
   // add the x Axis
+  
   svg.append("g")
       .attr("transform", "translate(0,"+height_sections[1]*1/2+")")
       .attr("class","axis-top hours")
@@ -126,20 +127,23 @@ var svg = d3.select("#forecastchart").append("svg")
       .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(1/5))+")")
       .attr("class","bottom-section axis-top burst")
       .call(d3.axisBottom(x_burst).tickFormat(d3.format(",.1f")));
-    
+	let arrow_width = 15;
+	let arrow_height = 15;
+	let arrow_margin_top = 5;
+	let arrow_margin_left = 5;
 	svg.append("g").selectAll("g").data(dir_wind).enter()
 	.append("svg:image")
 	.attr("xlink:href","flecha_2.svg")
 	.attr("transform",(d,i)=>{
-		x_pos = x_dates(dates[i]) + 15;
-		y_pos = height_sections[2]+(total_height-height_sections[2])*(2/5) + 15;
+		x_pos = x_dates(dates[i]) + arrow_margin_left + arrow_width/2;
+		y_pos = height_sections[2]+(total_height-height_sections[2])*(2/5) + arrow_margin_top + arrow_height/2;
 		transformation = "rotate("+ d +" "+x_pos+" "+y_pos+")";
 		return transformation;
 	})
 	.attr("x",(d,i)=>{
-		return x_dates(dates[i]) + 7.5;
+		return x_dates(dates[i]) + arrow_margin_left ;
 	})
-	.attr("y",height_sections[2]+(total_height-height_sections[2])*(2/5) +2.5)
+	.attr("y",height_sections[2]+(total_height-height_sections[2])*(2/5) + arrow_margin_top)
 	.attr("width","15")
 	.attr("height","15");
 
