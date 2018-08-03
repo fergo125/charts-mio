@@ -1,7 +1,7 @@
 .chart-container{
     overflow-x: scroll; 
     width: 1000px;
-    height: 2000px;
+    height: 350px;
     margin: auto;
 }
 .axis-top path, .axis-top .tick line
@@ -13,6 +13,11 @@
     height: 0px;
     font-size: 10pt;
     font-family: 'Avenir';
+  }
+
+  .tide-graph-line{
+	fill: none;
+	stroke: #0097E2;
   }
 
   .axis-top.days{
@@ -54,12 +59,34 @@
   font-size: 8pt;
 }
 
-.axis-tag.wave{
+.axis-tag.h{
     Color: #000000;
-    text-anchor: middle;
+    text-anchor: start;
     font-weight: bold;
 }
 
+.medium-height-line{
+	stroke:#C2C2C2;
+	height: 1px;
+	stroke-dasharray: 8,2;
+}
+
+.today-line{
+	stroke:#FF9102;
+	height: 1px;
+	
+}
+
+.mean-heightest-line{
+	stroke:#FF9102;
+	height: 1px;
+	
+}
+.cero-line{
+	stroke:#FF9102;
+	height: 1px;
+	
+}
 .axis-tag.hs-tag{
   fill:#0097E2;
 }
@@ -67,6 +94,23 @@
 .axis-tag.hm-tag{
   fill:#054477;
 }
+#forecastchart svg{
+	overflow-x: scroll
+}
 
+.axis-left, .axis-left .tick line{
+	fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    stroke-width: 0px;
+    height: 0px;
+    font-size: 10pt;
+    font-family: 'Avenir';
+
+}
+.area{
+	fill:#29BFFF;
+	fill-opacity: .7;
+}
 .bar-sig { fill: #0097E2; }
 .bar-max { fill: #054477; }

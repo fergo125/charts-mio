@@ -97,9 +97,9 @@ var svg = d3.select("#forecastchart").append("svg")
     .enter().append("rect")
       .attr("fill", (d)=>{ 
         if(d[0]==0){
-          if(d[1]< 25) return "#10AF90";
+          if(d[1]< 25) return "#03EAC3";
           if(d[1]> 25 && d[1]< 35) return "#17CCAA";
-          if(d[1]> 35 ) return "#03EAC3";
+          if(d[1]> 35 ) return "#10AF90";
       }
     else{
       return "#025B4A";
@@ -144,8 +144,8 @@ var svg = d3.select("#forecastchart").append("svg")
 		return x_dates(dates[i]) + arrow_margin_left ;
 	})
 	.attr("y",height_sections[2]+(total_height-height_sections[2])*(2/5) + arrow_margin_top)
-	.attr("width","15")
-	.attr("height","15");
+	.attr("width",arrow_width)
+	.attr("height",arrow_height);
 
     svg.append("g")
       .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(3/5))+")")
@@ -199,14 +199,14 @@ var svg = d3.select("#forecastchart").append("svg")
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag speed")
-    .text("Velocidad");  
+    .text("Velocidad (km/h)");  
 
     svg.append("text")
     .attr("y",(height_sections[2]+(total_height-height_sections[2])*(1/5) +5))
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag burst")
-    .text("Ráfaga");  
+    .text("Ráfaga (km/h)");  
 
     svg.append("text")
     .attr("y", (height_sections[2]+(total_height-height_sections[2])*(2/5) +5))
@@ -224,7 +224,14 @@ var svg = d3.select("#forecastchart").append("svg")
 
 }
 function main(){
-    var data = axios.get("https://miocimar-test.herokuapp.com/api/local_forecasts/15/weekly_view/")
+	format = {
+		"decimal": ".",
+  		"thousands": ",",
+		"days":["Domingo","Lunes","Martes","Miercoles","Jueves","Sabado"],
+		"months":["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+	};
+	d3.formatDefaultLocale(format);
+	var data = axios.get("https://miocimar-test.herokuapp.com/api/local_forecasts/15/weekly_view/")
     .then(function(response){
         console.log(response);
         renderChart(response.data); 

@@ -213,14 +213,14 @@ var svg = d3.select("#forecastchart").append("svg")
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag hs-tag")
-    .text("Altura Significativa");  
+    .text("Altura Significativa (m)");  
 
     svg.append("text")
     .attr("y",(height_sections[2]+(total_height-height_sections[2])*(1/5) +5))
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag hm-tag")
-    .text("Altura Maxima");  
+    .text("Altura Maxima (m)");  
 
     svg.append("text")
     .attr("y", (height_sections[2]+(total_height-height_sections[2])*(2/5) +5))
@@ -234,7 +234,7 @@ var svg = d3.select("#forecastchart").append("svg")
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag")
-    .text("Periodo(s)");
+    .text("Periodo (s)");
     
 //   add the y Axis
 //   svg.append("g")
