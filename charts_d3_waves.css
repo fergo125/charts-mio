@@ -1,0 +1,72 @@
+.chart-container{
+    overflow-x: scroll; 
+    width: 1000px;
+    height: 2000px;
+    margin: auto;
+}
+.axis-top path, .axis-top .tick line
+{
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    stroke-width: 0px;
+    height: 0px;
+    font-size: 10pt;
+    font-family: 'Avenir';
+  }
+
+  .axis-top.days{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800
+  }
+  .axis-top.hours{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 600
+  }
+  .axis-top.p{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+  }
+
+  .axis-top.hs text{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+    fill: #0097E2;
+  }
+  .axis-top.hm text{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800;
+    fill:#054477;
+  }
+  .axis-top.p{
+    font-family: 'Avenir Black','Avenir';
+    font-weight: 800
+  }
+.background-rect{
+    fill: #f6f6f6;
+}
+.axis-tag{
+    font-family: 'Avenir';
+    text-anchor: end;
+    font-size: 9pt; 
+}
+.bottom-section.axis-top{
+  font-size: 8pt;
+}
+
+.axis-tag.wave{
+    Color: #000000;
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+.axis-tag.hs-tag{
+  fill:#0097E2;
+}
+
+.axis-tag.hm-tag{
+  fill:#054477;
+}
+
+.bar-sig { fill: #0097E2; }
+.bar-max { fill: #054477; }

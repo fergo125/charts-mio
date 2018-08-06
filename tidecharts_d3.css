@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+body{
+	font-family: 'Lato', sans-serif;
+}
 .chart-container{
-    overflow-x: scroll; 
     width: 1000px;
-    height: 350px;
-    margin: auto;
+    height: 450px;
+	margin: auto;
 }
 .axis-top path, .axis-top .tick line
 {
@@ -21,37 +24,31 @@
   }
 
   .axis-top.days{
-    font-family: 'Avenir Black','Avenir';
+	font-family: 'Lato', sans-serif;
     font-weight: 800
   }
   .axis-top.hours{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 600
   }
   .axis-top.p{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800;
   }
 
   .axis-top.hs text{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800;
     fill: #0097E2;
   }
   .axis-top.hm text{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800;
     fill:#054477;
   }
   .axis-top.p{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800
   }
 .background-rect{
     fill: #f6f6f6;
 }
 .axis-tag{
-    font-family: 'Avenir';
     text-anchor: end;
     font-size: 9pt; 
 }
@@ -62,7 +59,8 @@
 .axis-tag.h{
     Color: #000000;
     text-anchor: start;
-    font-weight: bold;
+	font-weight: bold;
+	font-size: 12pt;
 }
 
 .medium-height-line{
@@ -78,12 +76,12 @@
 }
 
 .mean-heightest-line{
-	stroke:#FF9102;
+	stroke:#F34135;
 	height: 1px;
 	
 }
 .cero-line{
-	stroke:#FF9102;
+	stroke:#4a4a4a;
 	height: 1px;
 	
 }
@@ -105,12 +103,22 @@
     stroke-width: 0px;
     height: 0px;
     font-size: 10pt;
-    font-family: 'Avenir';
 
 }
 .area{
 	fill:#29BFFF;
 	fill-opacity: .7;
 }
-.bar-sig { fill: #0097E2; }
-.bar-max { fill: #054477; }
+
+
+.symbology-tag{
+	color: #4a4a4a;
+	font-size: 10pt;
+}
+
+.symbology-circle{
+	fill:#29BFFF;
+	fill-opacity: .7;
+	stroke-width: 2;
+	stroke:#29BFFF;
+}

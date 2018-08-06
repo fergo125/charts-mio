@@ -14,10 +14,10 @@ function renderChart(data){
     // var margin = {top: 20, right: 20, bottom: 72, left: 180},
     // width = 960 - margin.left - margin.right,
     // height = 350 - margin.top - margin.bottom;
-    let total_width = 1440;
-    let total_height = 300;
-    let width_sections = [total_width*0.06,total_width*0.01,total_width*0.93];
-    let height_sections = [total_height*0.15,total_height*0.7, total_height*0.15];
+    let total_width = 1000;
+    let total_height = 350;
+    let width_sections = [total_width*0.11,total_width*0.02,total_width*0.82];
+    let height_sections = [total_height*0.15,total_height*0.65, total_height*0.20];
     
     let width_offset = 0;
     width_sections= width_sections.map((v,i)=>{let v_o = width_offset; width_offset += v; return v_o})
@@ -80,12 +80,14 @@ x_dates.domain(dates);
 x_days.domain(dates_days);
 x_tides.domain(tides_entries);
 x_hours.domain(dates_hours);
+
 var y = d3.scaleLinear()
-.range([height_sections[2]- 5, height_sections[1]]);
-y.domain([d3.min(tides_entries)<0?d3.min(tides_entries):0, d3.max(tides_entries) + 0.5]);
+.range([height_sections[2], height_sections[1]]);
+
+y.domain([d3.min(tides_entries)<0?(d3.min(tides_entries)-0.2):0, d3.max(tides_entries) + 0.5]);
 
 tick_values = [];
-for(tick = d3.min(tides_entries)<0?d3.min(tides_entries):0; tick < d3.max(tides_entries) ; tick +=0.5){
+for(tick = d3.min(tides_entries)<0?(d3.min(tides_entries)-0.2):0; tick < d3.max(tides_entries) ; tick +=0.5){
 	tick_values.push(tick);
 }
 
@@ -125,6 +127,7 @@ var svg = d3.select("#forecastchart").append("svg")
   .y0(height_sections[2])
   .y1((d) =>{ return y(d); }).curve(d3.curveMonotoneX);
 
+  svg.append("g").append("path").datum(tides_entries).attr("class","area").attr("d",area);
   svg.append("g").append("path").datum(tides_entries).attr("class","tide-graph-line").attr("d",line);
   svg.append("g").append("line")
 			.attr("class","medium-height-line")
@@ -133,9 +136,6 @@ var svg = d3.select("#forecastchart").append("svg")
 			.attr("x2",total_width)
 			.attr("y2",y(medium_level));
 			let today = new Date(); 
-			console.log(x_dates_linear(today.getTime()));
-			console.log(x_dates_linear(dates_days[0].getTime()),x_dates_linear(dates_days[dates_days.length-1].getTime()))
-			console.log(today);
 
   svg.append("g").append("line")
 			.attr("class","mean-heightest-line")
@@ -164,10 +164,9 @@ svg.append("g").append("line")
 			.attr("x2",total_width)
 			.attr("y2",y(0));
 
-  svg.append("g").append("path").datum(tides_entries).attr("class","area").attr("d",area)
-
   // add the x Axis
-  console.log(tick_values);
+  date_ticks= dates_days.map((d)=>(d.toLocalDateString("es-ES",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })));
+  console.loge(date_ticks);
   svg.append("g")
       .attr("transform", "translate(0,"+height_sections[1]*1/2+")")
       .attr("class","axis-top hours")
@@ -177,7 +176,7 @@ svg.append("g").append("line")
       .attr("class","axis-top days")
 	  .call(d3.axisBottom(x_days).tickFormat(d3.timeFormat("%A %d, %B")));
 	svg.append("g")
-	.attr("transform", "translate("+(width_sections[1]+10)+","+height_sections[0]+")")
+	.attr("transform", "translate("+(width_sections[1]+10)+","+(height_sections[0] - 6)+")")
 	.attr("class","axis-left height")
 	.call(d3.axisLeft(y).tickValues(tick_values).tickFormat(d3.format(",.1f")));
 	
@@ -205,11 +204,70 @@ svg.append("g").append("line")
     .attr("class","axis-tag h")
     .text("Altura (m)");   
   
-    
-//   add the y Axis
-//   svg.append("g")
-//       .call(d3.axisLeft(y));
+	symbology_grid_size =32;
+	//Simbología
+	svg.append("circle")
+	.attr("cy", height_sections[2] + 1/2*(total_height-height_sections[2] +20))
+    .attr("cx",width_sections[2] + (2/symbology_grid_size)*(total_width-width_sections[2]))
+    .attr("r", "5")
+	.attr("class","symbology-circle");
+	
+	svg.append("text")
+    .attr("y", height_sections[2] + 1/2*(total_height-height_sections[2]))
+    .attr("x",width_sections[2] + (3/symbology_grid_size)*(total_width-width_sections[2])-10)
+    .attr("dy", "1em")
+    .attr("class","symbology-tag")
+	.text("Marea");
+	svg.append("g").append("line")
+			.attr("class","cero-line")
+			.attr("x1",width_sections[2] + (5/symbology_grid_size)*(total_width-width_sections[2])-10)
+			.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
+			.attr("x2",width_sections[2] + (6/symbology_grid_size)*(total_width-width_sections[2])-10)
+			.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
+	svg.append("text")
+    .attr("y",height_sections[2] + 1/2*(total_height-height_sections[2]))
+    .attr("x",width_sections[2] + 6/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("dy", "1em")
+    .attr("class","symbology-tag")
+	.text("0 Metros");
+	svg.append("g").append("line")
+	.attr("class","medium-height-line")
+	.attr("x1",width_sections[2] + (9/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
+	.attr("x2",width_sections[2] + (10/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
+	
+	svg.append("text")
+    .attr("y",height_sections[2] + 1/2*(total_height-height_sections[2]))
+    .attr("x",width_sections[2] + 10/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("dy", "1em")
+    .attr("class","symbology-tag")
+	.text("Nivel Medio");
+	svg.append("g").append("line")
+	.attr("class","mean-heightest-line")
+	.attr("x1",width_sections[2] + (14/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
+	.attr("x2",width_sections[2] + (15/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
+	svg.append("text")
+    .attr("y", height_sections[2] + 1/2*(total_height-height_sections[2]))
+    .attr("x",width_sections[2] + 15/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("dy", "1em")
+    .attr("class","symbology-tag")
+	.text("Promedio de mareas más altas");
 
+	svg.append("g").append("line")
+	.attr("class","today-line")
+	.attr("x1",width_sections[2] + (22/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
+	.attr("x2",width_sections[2] + (23/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
+	svg.append("text")
+    .attr("y", height_sections[2] + 1/2*(total_height-height_sections[2]))
+    .attr("x",width_sections[2] + 23/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("dy", "1em")
+    .attr("class","symbology-tag")
+	.text("Hora Local");
 
 
 }
