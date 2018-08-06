@@ -8,7 +8,20 @@ function renderChart(data){
     let wind_burst = data.map(x=> x.wind_burst);
     let dates_days = [];
     let dir_wind = data.map(x => x.wind_direction);
-
+    let myFormatter = d3.timeFormatLocale({
+      "decimal": ".",
+      "thousands": ",",
+      "grouping": [3],
+      "currency": ["$", ""],
+      "dateTime": "%a %b %e %X %Y",
+      "date": "%m/%d/%Y",
+      "time": "%H:%M:%S",
+      "periods": ["AM", "PM"],
+    "days":["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"],
+    "shortDays": ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+    "months": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+    "shortMonths": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    });
     console.log("Charts ")
     // var margin = {top: 20, right: 20, bottom: 72, left: 180},
     // width = 960 - margin.left - margin.right,
@@ -118,7 +131,7 @@ var svg = d3.select("#forecastchart").append("svg")
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[0]+")")
       .attr("class","axis-top days")
-      .call(d3.axisBottom(x_days).tickFormat(d3.timeFormat("%A %d, %B")));
+      .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d, %B")));
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[2]+")")
       .attr("class","bottom-section axis-top speed")

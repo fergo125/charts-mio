@@ -1,7 +1,21 @@
 
 function renderChart(data){
 	console.log(data);
-    console.log("Rendering");
+	console.log("Rendering");
+	let myFormatter = d3.timeFormatLocale({
+		"decimal": ".",
+		"thousands": ",",
+		"grouping": [3],
+		"currency": ["$", ""],
+		"dateTime": "%a %b %e %X %Y",
+		"date": "%m/%d/%Y",
+		"time": "%H:%M:%S",
+		"periods": ["AM", "PM"],
+	"days":["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"],
+	"shortDays": ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+  "months": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+  "shortMonths": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+	});
     //data_waves = data.map(x => ({"date":x.date,"wave_height_sig":x.wave_height_sig}))
     // let dates = data.map(x=> (new Date(x.date)).getHours());
     let dates = data.tides_entries.map(x=> ((new Date(x.date))));
@@ -165,8 +179,8 @@ svg.append("g").append("line")
 			.attr("y2",y(0));
 
   // add the x Axis
-  date_ticks= dates_days.map((d)=>(d.toLocalDateString("es-ES",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })));
-  console.loge(date_ticks);
+//   date_ticks= dates_days.map((d)=>((new Date(d)).toLocalDateString("es-ES",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })));
+//   console.loge(date_ticks);
   svg.append("g")
       .attr("transform", "translate(0,"+height_sections[1]*1/2+")")
       .attr("class","axis-top hours")
@@ -174,7 +188,7 @@ svg.append("g").append("line")
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[0]+")")
       .attr("class","axis-top days")
-	  .call(d3.axisBottom(x_days).tickFormat(d3.timeFormat("%A %d, %B")));
+	  .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d, %B")));
 	svg.append("g")
 	.attr("transform", "translate("+(width_sections[1]+10)+","+(height_sections[0] - 6)+")")
 	.attr("class","axis-left height")
@@ -276,6 +290,7 @@ function main(){
 	promises.push(axios.get("https://miocimar-test.herokuapp.com/api/tide_regions/39/"));
 	promises.push(axios.get("https://miocimar-test.herokuapp.com/api/tide_regions/39/weekly_view/"))
 	
+
 	 
 	axios.all(promises).then(function(results){
 		let final_data = {};

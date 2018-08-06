@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+body{
+	font-family: 'Lato', sans-serif;
+}
+
 .chart-container{
     overflow-x: scroll; 
     width: 1000px;
@@ -12,41 +17,33 @@
     stroke-width: 0px;
     height: 0px;
     font-size: 10pt;
-    font-family: 'Avenir';
   }
 
   .axis-top.days{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800
   }
   .axis-top.hours{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 600
   }
   .axis-top.p{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800;
   }
 
   .axis-top.hs text{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800;
     fill: #0097E2;
   }
   .axis-top.hm text{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800;
     fill:#054477;
   }
   .axis-top.p{
-    font-family: 'Avenir Black','Avenir';
     font-weight: 800
   }
 .background-rect{
     fill: #f6f6f6;
 }
 .axis-tag{
-    font-family: 'Avenir';
     text-anchor: end;
     font-size: 9pt; 
 }
