@@ -132,11 +132,13 @@ var svg = d3.select("#forecastchart").append("svg")
       .attr("transform", "translate(0,"+height_sections[0]+")")
       .attr("class","axis-top days")
       .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d, %B")));
+    
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[2]+")")
       .attr("class","bottom-section axis-top speed")
-      .call(d3.axisBottom(x_speed).tickFormat(d3.format(",.1f")));
-    svg.append("g")
+      .call(d3.axisBottom(x_speed).tickValues(wind_speed).tickFormat(d3.format(",.1f")));
+      // .call(d3.axisBottom(x_speed).tickFormat(d3.format(",.1f")));
+      svg.append("g")
       .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(1/5))+")")
       .attr("class","bottom-section axis-top burst")
       .call(d3.axisBottom(x_burst).tickFormat(d3.format(",.1f")));
@@ -244,7 +246,7 @@ function main(){
 		"months":["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 	};
 	d3.formatDefaultLocale(format);
-	var data = axios.get("https://miocimar-test.herokuapp.com/api/local_forecasts/15/weekly_view/")
+	var data = axios.get("https://miocimarv2.herokuapp.com/api/local_forecasts/16/weekly_view/")
     .then(function(response){
         console.log(response);
         renderChart(response.data); 
