@@ -188,7 +188,7 @@ svg.append("g").append("line")
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[0]+")")
       .attr("class","axis-top days")
-	  .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d, %B")));
+	  .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d/%m")));
 	svg.append("g")
 	.attr("transform", "translate("+(width_sections[1]+10)+","+(height_sections[0] - 6)+")")
 	.attr("class","axis-left height")

@@ -26,7 +26,7 @@ body{
     font-weight: 600
   }
   .axis-top.p{
-    font-weight: 800;
+	font-weight: 800;
   }
 
   .axis-top.hs text{
@@ -49,6 +49,10 @@ body{
 }
 .bottom-section.axis-top{
   font-size: 8pt;
+}
+.bottom-section.axis-top.dir-text{
+  font-size: 7pt;
+  font-weight: 800;
 }
 
 .axis-tag.wave{

@@ -176,7 +176,7 @@ var svg = d3.select("#forecastchart").append("svg")
 	.attr("height","15");
     svg.append("g")
       .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(3/5))+")")
-      .attr("class","bottom-section axis-top p")
+      .attr("class","bottom-section axis-top dir-text")
       .call(d3.axisBottom(x_direction).tickFormat((d)=>{
         dir = ((d-180)<0)? d+180: d-180; 
         // Tanto el rango como el label es hacía donde va el vector. 
@@ -249,10 +249,6 @@ var svg = d3.select("#forecastchart").append("svg")
     .attr("class","axis-tag")
     .text("Periodo (s)");
     
-//   add the y Axis
-//   svg.append("g")
-//       .call(d3.axisLeft(y));
-
 
 
 }

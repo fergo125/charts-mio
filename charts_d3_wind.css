@@ -51,6 +51,10 @@ body{
 .bottom-section.axis-top{
   font-size: 8pt;
 }
+.bottom-section.axis-top.dir-text{
+	font-size: 7pt;
+	font-weight: 800;
+  }
 
 .axis-tag.wave{
     Color: #000000;
