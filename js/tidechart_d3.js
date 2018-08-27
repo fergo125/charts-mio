@@ -201,14 +201,14 @@ svg.append("g").append("line")
       .attr("x", width_sections[1] )
       .attr("dy", "1em")
       .attr("class","axis-tag")
-      .text("Día"); 
+      .text("día"); 
     
     svg.append("text")
     .attr("y", height_sections[0] + height_sections[1]*1/2 +5)
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag")
-    .text("Hora");   
+    .text("hora");   
 
     svg.append("text")
     .attr("transform", "rotate(-90,"+width_sections[0] + width_sections[1]*1/2+","+height_sections[2]+")")
@@ -216,7 +216,7 @@ svg.append("g").append("line")
     .attr("x",width_sections[0] + width_sections[1]*1/2)
     .attr("dy", "1em")
     .attr("class","axis-tag h")
-    .text("Altura (m)");   
+    .text("altura (m)");   
   
 	symbology_grid_size =32;
 	//Simbología
@@ -231,64 +231,64 @@ svg.append("g").append("line")
     .attr("x",width_sections[2] + (3/symbology_grid_size)*(total_width-width_sections[2])-10)
     .attr("dy", "1em")
     .attr("class","symbology-tag")
-	.text("Marea");
+	.text("marea");
 	svg.append("g").append("line")
 			.attr("class","cero-line")
-			.attr("x1",width_sections[2] + (5/symbology_grid_size)*(total_width-width_sections[2])-10)
+			.attr("x1",width_sections[2] + (6/symbology_grid_size)*(total_width-width_sections[2])-10)
 			.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
-			.attr("x2",width_sections[2] + (6/symbology_grid_size)*(total_width-width_sections[2])-10)
+			.attr("x2",width_sections[2] + (7/symbology_grid_size)*(total_width-width_sections[2])-10)
 			.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
 	svg.append("text")
     .attr("y",height_sections[2] + 1/2*(total_height-height_sections[2]))
-    .attr("x",width_sections[2] + 6/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("x",width_sections[2] + 7/symbology_grid_size*(total_width-width_sections[2]))
     .attr("dy", "1em")
     .attr("class","symbology-tag")
-	.text("0 Metros");
+	.text("0 metros");
 	svg.append("g").append("line")
 	.attr("class","medium-height-line")
-	.attr("x1",width_sections[2] + (9/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("x1",width_sections[2] + (11/symbology_grid_size)*(total_width-width_sections[2])-10)
 	.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
-	.attr("x2",width_sections[2] + (10/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("x2",width_sections[2] + (12/symbology_grid_size)*(total_width-width_sections[2])-10)
 	.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
 	
 	svg.append("text")
     .attr("y",height_sections[2] + 1/2*(total_height-height_sections[2]))
-    .attr("x",width_sections[2] + 10/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("x",width_sections[2] + 12/symbology_grid_size*(total_width-width_sections[2]))
     .attr("dy", "1em")
     .attr("class","symbology-tag")
-	.text("Nivel Medio");
+	.text("nivel medio");
 	svg.append("g").append("line")
 	.attr("class","mean-heightest-line")
-	.attr("x1",width_sections[2] + (14/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("x1",width_sections[2] + (16/symbology_grid_size)*(total_width-width_sections[2])-10)
 	.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
-	.attr("x2",width_sections[2] + (15/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("x2",width_sections[2] + (17/symbology_grid_size)*(total_width-width_sections[2])-10)
 	.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
 	svg.append("text")
     .attr("y", height_sections[2] + 1/2*(total_height-height_sections[2]))
-    .attr("x",width_sections[2] + 15/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("x",width_sections[2] + 17/symbology_grid_size*(total_width-width_sections[2]))
     .attr("dy", "1em")
     .attr("class","symbology-tag")
-	.text("Promedio de mareas más altas");
+	.text("promedio de mareas más altas");
 
 	svg.append("g").append("line")
 	.attr("class","today-line")
-	.attr("x1",width_sections[2] + (22/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("x1",width_sections[2] + (25/symbology_grid_size)*(total_width-width_sections[2])-10)
 	.attr("y1",height_sections[2] + 1/2*(total_height-height_sections[2])+10)
-	.attr("x2",width_sections[2] + (23/symbology_grid_size)*(total_width-width_sections[2])-10)
+	.attr("x2",width_sections[2] + (26/symbology_grid_size)*(total_width-width_sections[2])-10)
 	.attr("y2",height_sections[2] + 1/2*(total_height-height_sections[2])+10);
 	svg.append("text")
     .attr("y", height_sections[2] + 1/2*(total_height-height_sections[2]))
-    .attr("x",width_sections[2] + 23/symbology_grid_size*(total_width-width_sections[2]))
+    .attr("x",width_sections[2] + 26/symbology_grid_size*(total_width-width_sections[2]))
     .attr("dy", "1em")
     .attr("class","symbology-tag")
-	.text("Hora Local");
+	.text("hora actual");
 
 
 }
 function main(){
 	let promises = [];
-	promises.push(axios.get("https://miocimar-test.herokuapp.com/api/tide_regions/39/"));
-	promises.push(axios.get("https://miocimar-test.herokuapp.com/api/tide_regions/39/weekly_view/"))
+	promises.push(axios.get("https://miocimarv2.herokuapp.com/api/tide_regions/39/"));
+	promises.push(axios.get("https://miocimarv2.herokuapp.com/api/tide_regions/39/search_date/?start=2018-08-13T00:00:00Z&end=2018-08-18T00:00:00Z"))
 	
 
 	 

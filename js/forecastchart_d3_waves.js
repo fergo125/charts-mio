@@ -18,7 +18,7 @@ function renderChart(data){
       "date": "%m/%d/%Y",
       "time": "%H:%M:%S",
       "periods": ["AM", "PM"],
-    "days":["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sabado"],
+    "days":["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"],
     "shortDays": ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
     "months": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
     "shortMonths": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
@@ -141,7 +141,7 @@ var svg = d3.select("#forecastchart").append("svg")
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[2]+")")
       .attr("class","bottom-section axis-top hs")
-      .call(d3.axisBottom(x_sig).tickFormat(d3.format(",.1f")));
+      .call(d3.axisBottom(x_sig).tickValues(waves_sig).tickFormat(d3.format(",.1f")));
     svg.append("g")
       .attr("transform", "translate(0,"+(height_sections[2]+(total_height-height_sections[2])*(1/5))+")")
       .attr("class","bottom-section axis-top hm")
@@ -219,21 +219,21 @@ var svg = d3.select("#forecastchart").append("svg")
     .attr("x", -15 -width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag wave")
-    .text("Altura de la Ola");   
+    .text("Altura de la ola");   
     
     svg.append("text")
     .attr("y", height_sections[2] +5)
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag hs-tag")
-    .text("Altura Significativa (m)");  
+    .text("Altura significativa (m)");  
 
     svg.append("text")
     .attr("y",(height_sections[2]+(total_height-height_sections[2])*(1/5) +5))
     .attr("x", width_sections[1])
     .attr("dy", "1em")
     .attr("class","axis-tag hm-tag")
-    .text("Altura Maxima (m)");  
+    .text("Altura máxima (m)");  
 
     svg.append("text")
     .attr("y", (height_sections[2]+(total_height-height_sections[2])*(2/5) +5))
