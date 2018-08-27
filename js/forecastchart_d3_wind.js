@@ -244,7 +244,7 @@ function main(){
 		"months":["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 	};
 	d3.formatDefaultLocale(format);
-	var data = axios.get("https://miocimar-test.herokuapp.com/api/local_forecasts/15/weekly_view/")
+	var data = axios.get("https://miocimarv2.herokuapp.com/api/local_forecasts/16/weekly_view/")
     .then(function(response){
         console.log(response);
         renderChart(response.data); 

@@ -257,7 +257,7 @@ var svg = d3.select("#forecastchart").append("svg")
 
 }
 function main(){
-    var data = axios.get("https://miocimar-test.herokuapp.com/api/local_forecasts/15/weekly_view/")
+    var data = axios.get("https://miocimarv2.herokuapp.com/api/local_forecasts/15/weekly_view/")
     .then(function(response){
         console.log(response);
         renderChart(response.data); 
