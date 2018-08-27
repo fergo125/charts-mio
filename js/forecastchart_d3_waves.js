@@ -137,7 +137,7 @@ var svg = d3.select("#forecastchart").append("svg")
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[0]+")")
       .attr("class","axis-top days")
-      .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d, %B")));
+      .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d/%m")));
     svg.append("g")
       .attr("transform", "translate(0,"+height_sections[2]+")")
       .attr("class","bottom-section axis-top hs")
