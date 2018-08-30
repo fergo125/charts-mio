@@ -79,6 +79,7 @@ body{
 	stroke:#F34135;
 	height: 1px;
 	stroke-width: 1px;
+	stroke-dasharray: 8,2;
 }
 .cero-line{
 	stroke:#4a4a4a;

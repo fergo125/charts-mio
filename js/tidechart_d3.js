@@ -1,7 +1,10 @@
 
+
+
 function renderChart(data){
 	console.log(data);
 	console.log("Rendering");
+	let local_timezone = "America/Costa_Rica";
 	let myFormatter = d3.timeFormatLocale({
 		"decimal": ".",
 		"thousands": ",",
@@ -18,8 +21,24 @@ function renderChart(data){
 	});
     //data_waves = data.map(x => ({"date":x.date,"wave_height_sig":x.wave_height_sig}))
     // let dates = data.map(x=> (new Date(x.date)).getHours());
-    let dates = data.tides_entries.map(x=> ((new Date(x.date))));
+	let dates = data.tides_entries.map(x=> {
+		return new Date(x.date);
+	});
+    
 	let tides_entries = data.tides_entries.map(x=>(x.tide_height));
+	if(dates.length > 1){
+		while(moment(dates[0]).tz("America/Costa_Rica").format("dddd") == moment(dates[1]).tz("America/Costa_Rica").format("dddd") ){
+			dates.splice(0,1);
+            tides_entries.splice(0,1);
+		}
+		while(moment(dates[dates.length-1]).tz("America/Costa_Rica").format("dddd") == moment(dates[dates.length -2]).tz("America/Costa_Rica").format("dddd") ){
+			dates.splice(dates.length-1,1);
+			tides_entries.splice(tides_entries.length-1,1);
+		}
+	}
+	
+	
+
 	let medium_level = data.medium_level;
 	let mean_highest_tides = data.mean_highest_tides;
 	console.log(dates);
@@ -34,27 +53,61 @@ function renderChart(data){
     let height_sections = [total_height*0.15,total_height*0.65, total_height*0.20];
     
     let width_offset = 0;
-    width_sections= width_sections.map((v,i)=>{let v_o = width_offset; width_offset += v; return v_o})
+    width_sections= width_sections.map((v,i)=>{let v_o = width_offset; width_offset += v; return v_o});
     let height_offset = 0;
-    height_sections = height_sections.map((v,i)=>{v_o = height_offset; height_offset += v; return v_o})
+    height_sections = height_sections.map((v,i)=>{let v_o = height_offset; height_offset += v; return v_o});
     console.log(width_sections);
     console.log(height_sections);
 	let dates_days = [];
 	let dates_hours = [];
-	
-	
+	dates_days.push(dates[0]);
+
 	for(let date in dates){
         date = parseInt(date);
-        if(date+1 < dates.length){
-            if(dates[date].getDay() != dates[date+1].getDay()){
+        console.log(moment(dates[date]).tz("America/Costa_Rica").format("dddd"));
+        if(date-1 > 0){
+            if(moment(dates_days[dates_days.length-1]).tz("America/Costa_Rica").format("dddd") != moment(dates[date]).tz("America/Costa_Rica").format("dddd")){
 				console.log("date day",dates[date]);
                 dates_days.push(dates[date]);
             }
         }
-        else{
-            dates_days.push(dates[date]);
-        }
 	}
+	days_bands = [];
+	let total_time = 0;
+	for(date in dates_days){
+        date = parseInt(date);
+        
+		if(date == 0){
+            current_date = new Date(dates[1]);
+            current_date.setHours(0,0,0,0);
+			time = current_date.getTime() - dates[0].getTime();
+			total_time += time;
+			days_bands.push(time);
+		}
+		if(date == dates_days.length-1){
+            current_date = new Date(dates[dates.length -1]);
+            current_date.setHours(0,0,0,0);
+			time = dates[dates.length-1].getTime() - current_date.getTime() ;
+			total_time += time;
+			days_bands.push(time);
+		}
+		if(date > 0 && date < dates_days.length-1){
+			time = 86400000;
+			total_time += time;
+			days_bands.push(time);
+		}
+	}
+	console.log(days_bands);
+	console.log(total_time);
+	console.log(days_bands[0]/total_time);
+	console.log(days_bands[days_bands.length-1]/total_time);
+	graph_head_start = width_sections[2];
+	graph_head_end = width_sections[2] + (total_width-width_sections[2])*(days_bands[0]/total_time);
+
+	graph_tail_start = total_width - (total_width-width_sections[2])*(days_bands[days_bands.length-1]/total_time);
+	graph_tail_end = total_width;
+	
+
 	console.log(dates_days[0]);
 	let start_date = new Date(dates_days[0].getTime());
 	let end_date = new Date(dates_days[dates_days.length-1].getTime() + 86400000);
@@ -80,8 +133,16 @@ var x_dates_linear = d3.scaleLinear()
 var x_dates = d3.scaleBand()
           .range([width_sections[2],total_width])
 		  .padding(bar_padding);
+
+var x_days_head = d3.scaleBand()
+		  .range([graph_head_start,graph_head_end]);
+
+var x_days_tail = d3.scaleBand()
+		  .range([graph_tail_start,graph_tail_end]);
+
 var x_days = d3.scaleBand()
-		  .range([width_sections[2],total_width]);
+		  .range([graph_head_end,graph_tail_start]);
+
 var x_hours = d3.scaleBand()
 .range([width_sections[2],total_width]);
 		  
@@ -89,8 +150,10 @@ var x_tides = d3.scaleLinear()
 		  .range([width_sections[2],total_width]);
 
 
-x_dates_linear.domain([d3.min(dates_days),d3.max(dates_days)]);
+x_dates_linear.domain([d3.min(dates), d3.max(dates)]);
 x_dates.domain(dates);
+dates_days.splice(0,1)
+dates_days.splice(dates_days.length-1,1);
 x_days.domain(dates_days);
 x_tides.domain(tides_entries);
 x_hours.domain(dates_hours);
@@ -112,8 +175,8 @@ var svg = d3.select("#forecastchart").append("svg")
     .attr("width", total_width)
     .attr("height", total_height)
   .append("g")
-    .attr("transform", 
-          "translate(" + 0+ "," + 0+ ")");
+  .attr("transform", 
+        "translate(" + 0+ "," + 0+ ")");
 
 // get the data
   // format the data
@@ -123,13 +186,35 @@ var svg = d3.select("#forecastchart").append("svg")
 //   console.log("Formatted data:",format_data)
   // Scale the range of the data in the domains
 
+  let bar_index = 0;
+  svg.append("g").selectAll("g").data([1]).enter().append("rect").
+  			attr("class", "background-rect")
+          .attr("x", graph_head_start)
+          .attr("width", graph_head_end - graph_head_start)
+          .attr("y", 0 )
+          .attr("height", function(d,i){ 
+              render =  (bar_index%2===0)?height_sections[2]:0;
+              ++bar_index;
+              return render;});
 
   svg.append("g").selectAll("g").data(dates_days).enter().append("rect").
   			attr("class", "background-rect")
           .attr("x", function(d){console.log(d);return x_days(d);})
           .attr("width", x_days.bandwidth())
           .attr("y", 0 )
-		  .attr("height", function(d,i){ return (i%2===0)?height_sections[2]:0});
+          .attr("height",function(d,i){ 
+            render =  (bar_index%2===0)?height_sections[2]:0;
+            ++bar_index;
+            return render;});
+    svg.append("g").selectAll("g").data([1]).enter().append("rect").
+            attr("class", "background-rect")
+        .attr("x", graph_tail_start)
+        .attr("width", graph_tail_end- graph_tail_start)
+        .attr("y", 0 )
+        .attr("height", function(d,i){ 
+          render =  (bar_index%2===0)?height_sections[2]:0;
+          ++bar_index;
+          return render;});
    
   let line = d3.line()
 	  .x((d,i)=>(x_dates_linear(dates[i])))
@@ -181,14 +266,26 @@ svg.append("g").append("line")
   // add the x Axis
 //   date_ticks= dates_days.map((d)=>((new Date(d)).toLocalDateString("es-ES",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })));
 //   console.loge(date_ticks);
-  svg.append("g")
-      .attr("transform", "translate(0,"+height_sections[1]*1/2+")")
-      .attr("class","axis-top hours")
-      .call(d3.axisBottom(x_hours).tickFormat(d3.timeFormat("%H")));
-    svg.append("g")
+//   svg.append("g")
+//       .attr("transform", "translate(0,"+height_sections[1]*1/2+")")
+//       .attr("class","axis-top hours")
+//     //   .call(d3.axisBottom(x_hours).tickFormat(d3.timeFormat("%H")));
+//       .call(d3.axisBottom(x_hours).tickFormat(
+// 		  function(d){
+// 			  return moment(d).tz("America/Costa_Rica").format("HH");
+// 		  })
+// 	).selectAll("text").attr("transform", "translate(-30,0)");
+	
+	svg.append("g")
       .attr("transform", "translate(0,"+height_sections[0]+")")
       .attr("class","axis-top days")
-	  .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d/%m")));
+	//   .call(d3.axisBottom(x_days).tickFormat(myFormatter.format("%A %d/%m")));
+	.call(d3.axisBottom(x_days).tickFormat(
+		function(d){
+			return moment(d).tz("America/Costa_Rica").format("dddd DD/MM","es");
+		}
+	));
+	
 	svg.append("g")
 	.attr("transform", "translate("+(width_sections[1]+10)+","+(height_sections[0] - 6)+")")
 	.attr("class","axis-left height")
@@ -288,7 +385,7 @@ svg.append("g").append("line")
 function main(){
 	let promises = [];
 	promises.push(axios.get("https://miocimarv2.herokuapp.com/api/tide_regions/39/"));
-	promises.push(axios.get("https://miocimarv2.herokuapp.com/api/tide_regions/39/search_date/?start=2018-08-13T00:00:00Z&end=2018-08-18T00:00:00Z"))
+	promises.push(axios.get("https://miocimar-test.herokuapp.com/api/tide_regions/39/search_date/?start=2018-08-23T06:00:00Z&end=2018-08-30T06:00:00Z"));
 	
 
 	 
