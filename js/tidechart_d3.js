@@ -50,7 +50,7 @@ function renderChart(data){
     let total_width = 1000;
     let total_height = 350;
     let width_sections = [total_width*0.11,total_width*0.02,total_width*0.82];
-    let height_sections = [total_height*0.15,total_height*0.65, total_height*0.20];
+    let height_sections = [total_height*0.08,total_height*0.72, total_height*0.20];
     
     let width_offset = 0;
     width_sections= width_sections.map((v,i)=>{let v_o = width_offset; width_offset += v; return v_o});
@@ -300,12 +300,7 @@ svg.append("g").append("line")
       .attr("class","axis-tag")
       .text("día"); 
     
-    svg.append("text")
-    .attr("y", height_sections[0] + height_sections[1]*1/2 +5)
-    .attr("x", width_sections[1])
-    .attr("dy", "1em")
-    .attr("class","axis-tag")
-    .text("hora");   
+    
 
     svg.append("text")
     .attr("transform", "rotate(-90,"+width_sections[0] + width_sections[1]*1/2+","+height_sections[2]+")")
