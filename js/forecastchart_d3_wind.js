@@ -37,20 +37,20 @@ function renderChart(data){
     height_sections = height_sections.map((v,i)=>{v_o = height_offset; height_offset += v; return v_o})
     console.log(width_sections);
     console.log(height_sections);
-    
+    dates_days.push(dates[0]);
     for(let date in dates){
-        date = parseInt(date)
-        if(date+1 < dates.length){
-            if(dates[date].getDay() != dates[date+1].getDay()){
+        date = parseInt(date);
+        console.log(moment(dates[date]).tz("America/Costa_Rica").format("dddd"));
+        if(date-1 > 0){
+            if(moment(dates_days[dates_days.length-1]).tz("America/Costa_Rica").format("dddd") != moment(dates[date]).tz("America/Costa_Rica").format("dddd")){
                 dates_days.push(dates[date]);
             }
         }
-        else{
-            dates_days.push(dates[date]);
-        }
-    }
+	}
+	dates_days.splice(dates_days.length-1,1);
+	console.log("days",dates_days);
 // set the ranges
-bar_padding = 0.2;
+bar_padding = 0.01;
 
 var x_dates = d3.scaleBand()
           .range([width_sections[2],total_width])
@@ -96,6 +96,18 @@ var svg = d3.select("#forecastchart").append("svg")
   x_direction.domain(dir_wind);
 
   y.domain([0, d3.max(wind_burst) + 1.5]);
+  
+  let data_per_day = 4;
+  let entries_length = wind_speed.length;
+  let offset_entries = entries_length%data_per_day;
+  let entries_length_offset = entries_length + (data_per_day - offset_entries);
+  let num_days_band = entries_length/data_per_day;
+  let days_band_size = ((total_width - width_sections[2])/num_days_band);
+//   let column_space = ((total_width - width_sections[2])/entries_length_offset);
+  let column_space = (days_band_size/data_per_day);
+  let column_padding = column_space*0.2;
+  let column_inner_size = column_space - column_padding;
+
 
   svg.append("g").selectAll("g").data(dates_days).enter().append("rect").
   attr("class", "background-rect")
@@ -103,6 +115,7 @@ var svg = d3.select("#forecastchart").append("svg")
           .attr("width", x_days.bandwidth())
           .attr("y", 0 )
           .attr("height", function(d,i){ return (i%2===0)?height_sections[2]:0});
+  
   svg.append("g").selectAll("g").data(d3.stack().keys(["wind_speed","wind_burst"])(format_data))
   .enter().append("g")
   .selectAll(".bar")
@@ -117,8 +130,17 @@ var svg = d3.select("#forecastchart").append("svg")
     else{
       return "#025B4A";
     }})
-      .attr("x", function(d, i) { _x = x_dates(new Date(d.data.date));return _x; })
-      .attr("width", x_dates.bandwidth())
+      .attr("x", function(d, i) { 
+		  date1 = moment(dates[0]);
+		  date2 = moment(dates[i]);
+		  day_index =  date2.tz("America/Costa_Rica").diff(date1,"days");
+		  hour_index =  (date2.tz("America/Costa_Rica").diff(date1,"hours")/6)%4;
+		  console.log(day_index);
+		  console.log(hour_index);
+		  console.log(days_band_size*day_index + column_space*(hour_index%data_per_day)+ column_padding/2);
+		  return days_band_size*day_index + column_space*(hour_index%data_per_day)+ column_padding/2 + width_sections[2];
+	   })
+      .attr("width", column_inner_size)
       .attr("y", function(d) { _y = y(d[1]);return _y; })
       .attr("height", function(d) { return y(d[0]) - y(d[1]); });    
 
