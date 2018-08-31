@@ -47,7 +47,7 @@ function renderChart(data){
             }
         }
 	}
-	dates_days.splice(dates_days.length-1,1);
+	// dates_days.splice(dates_days.length-1,1);
 	console.log("days",dates_days);
 // set the ranges
 bar_padding = 0.01;
