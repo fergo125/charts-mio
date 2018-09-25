@@ -124,3 +124,9 @@ body{
 	stroke-width: 2;
 	stroke:#29BFFF;
 }
+.tooltip rect{
+  fill: #4F595E;
+}
+.tooltip text{
+  color: #FFF;
+}

@@ -251,14 +251,6 @@ var svg = d3.select("#forecastchart").append("svg")
     .attr("dy", "1em")
     .attr("class","axis-tag")
     .text("Dirección");
-
-    
-//   add the y Axis
-//   svg.append("g")
-//       .call(d3.axisLeft(y));
-
-
-
 }
 function main(){
 	format = {

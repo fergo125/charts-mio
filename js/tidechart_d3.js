@@ -263,18 +263,7 @@ svg.append("g").append("line")
 			.attr("x2",total_width)
 			.attr("y2",y(0));
 
-  // add the x Axis
-//   date_ticks= dates_days.map((d)=>((new Date(d)).toLocalDateString("es-ES",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })));
-//   console.loge(date_ticks);
-//   svg.append("g")
-//       .attr("transform", "translate(0,"+height_sections[1]*1/2+")")
-//       .attr("class","axis-top hours")
-//     //   .call(d3.axisBottom(x_hours).tickFormat(d3.timeFormat("%H")));
-//       .call(d3.axisBottom(x_hours).tickFormat(
-// 		  function(d){
-// 			  return moment(d).tz("America/Costa_Rica").format("HH");
-// 		  })
-// 	).selectAll("text").attr("transform", "translate(-30,0)");
+ 
 	
 	svg.append("g")
       .attr("transform", "translate(0,"+height_sections[0]+")")
@@ -311,6 +300,59 @@ svg.append("g").append("line")
     .text("altura (m)");   
   
 	symbology_grid_size =32;
+	date_bisector = d3.bisector(function(d){return d;}).left;
+
+	//Tooltip
+	tooltip = svg.append("g")
+		.attr("class","tooltip")
+		.style("display","none");
+	tooltip.append("rect").attr("width",220).attr("height",50);
+	
+	// tooltip.append("line")
+	// 	// .attr("class","tooltip-line")
+	// 	.attr("class","today-line")
+	// 	.attr("x1",total_width)
+	// 	.attr("x2",total_width)
+	// 	.attr("y1",total_height)
+	// 	.attr("x2",total_height);
+		
+	tooltip.append("circle")
+		.attr("r",5);
+	
+	texts = tooltip.append("g").attr("class","tooltip-text");
+		texts.append("text").attr("class","time-text").attr("x","-95").attr("y","-40");
+		texts.append("text").attr("class","high-text").attr("x","-40").attr("y","-25");
+
+	svg.on("mousemove",function(){
+		pos_x = d3.mouse(this)[0];
+		pos_y = d3.mouse(this)[1];
+		if(pos_x > width_sections[2] && pos_x < total_width &&
+			pos_y > height_sections[1] && pos_y < height_sections[2]){
+				tooltip.style("display",null);
+				date_value = x_dates_linear.invert(pos_x);
+				i = date_bisector(dates,date_value,1);
+				i = date_value - dates[i-1] < dates[i] - date_value ? (i-1): i;
+				tooltip.select("line")
+					.attr("x1",x_dates_linear(dates[i]))
+					.attr("y1",height_sections[2])
+					.attr("x2", x_dates_linear(dates[i]))
+					.attr("y2",height_sections[1] );
+				tooltip.select("circle")
+					.attr("cx",x_dates_linear(dates[i]))
+					.attr("cy",y(tides_entries[i]));
+				texts = tooltip.select(".tooltip-text")
+					.attr("transform","translate("+x_dates_linear(dates[i])+","+y(tides_entries[i])+")");
+				text_width = texts.select(".time-text").text(moment(dates[i]).tz("America/Costa_Rica").format("dddd DD, MMMM • hh:mm a")).getBBox();
+				texts.select(".high-text").text("Altura: " +tides_entries[i] +" m");
+				tooltip.select("rect").attr("x",x_dates_linear(dates[i])-100).attr("y",y(tides_entries[i])-60)
+					.attr("width",text_width);	
+		}
+		else{
+			tooltip.style("display","none");
+		}
+
+	});
+	
 	//Simbología
 	svg.append("circle")
 	.attr("cy", height_sections[2] + 1/2*(total_height-height_sections[2] +20))
@@ -374,8 +416,6 @@ svg.append("g").append("line")
     .attr("dy", "1em")
     .attr("class","symbology-tag")
 	.text("hora actual");
-
-
 }
 function main(){
 	let promises = [];
