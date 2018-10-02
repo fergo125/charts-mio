@@ -306,7 +306,9 @@ svg.append("g").append("line")
 	tooltip = svg.append("g")
 		.attr("class","tooltip")
 		.style("display","none");
-	tooltip.append("rect").attr("width",220).attr("height",50);
+	tooltip.append("rect").attr("class","text-container").attr("width",240).attr("height",50).attr("rx","10").attr("ry","10");
+	// tooltip.append("rect").attr("class","container-pointer").attr("width",15).attr("height",15).attr("transform","skewX(45)");
+	tooltip.append("polygon").attr("class","container-pointer").attr("points","( -2.5,0 2.5,0 0,7)");
 	
 	// tooltip.append("line")
 	// 	// .attr("class","tooltip-line")
@@ -317,11 +319,15 @@ svg.append("g").append("line")
 	// 	.attr("x2",total_height);
 		
 	tooltip.append("circle")
-		.attr("r",5);
-	
+		.attr("class","inner-circle")
+		.attr("r",4);
+	tooltip.append("circle")
+		.attr("class","outer-circle")
+		.attr("r",8);
+
 	texts = tooltip.append("g").attr("class","tooltip-text");
-		texts.append("text").attr("class","time-text").attr("x","-95").attr("y","-40");
-		texts.append("text").attr("class","high-text").attr("x","-40").attr("y","-25");
+		texts.append("text").attr("class","time-text").attr("x","-95").attr("y","-45");
+		texts.append("text").attr("class","high-text").attr("x","-40").attr("y","-30");
 
 	svg.on("mousemove",function(){
 		pos_x = d3.mouse(this)[0];
@@ -337,15 +343,27 @@ svg.append("g").append("line")
 					.attr("y1",height_sections[2])
 					.attr("x2", x_dates_linear(dates[i]))
 					.attr("y2",height_sections[1] );
-				tooltip.select("circle")
+				tooltip.select(".inner-circle")
+					.attr("cx",x_dates_linear(dates[i]))
+					.attr("cy",y(tides_entries[i]));
+				tooltip.select(".outer-circle")
 					.attr("cx",x_dates_linear(dates[i]))
 					.attr("cy",y(tides_entries[i]));
 				texts = tooltip.select(".tooltip-text")
 					.attr("transform","translate("+x_dates_linear(dates[i])+","+y(tides_entries[i])+")");
-				text_width = texts.select(".time-text").text(moment(dates[i]).tz("America/Costa_Rica").format("dddd DD, MMMM • hh:mm a")).getBBox();
+				texts.select(".time-text").text(moment(dates[i]).tz("America/Costa_Rica").format("dddd DD, MMMM • hh:mm a"));
+				text_width = texts.select(".time-text").node().getComputedTextLength();
 				texts.select(".high-text").text("Altura: " +tides_entries[i] +" m");
-				tooltip.select("rect").attr("x",x_dates_linear(dates[i])-100).attr("y",y(tides_entries[i])-60)
-					.attr("width",text_width);	
+				tooltip.select("rect.text-container").attr("x",x_dates_linear(dates[i])-110).attr("y",y(tides_entries[i])-70)
+					.attr("width",text_width+30);
+				// tooltip.select("rect.container-pointer").attr("transform","rotate(45"+","+x_dates_linear(dates[i])+","+(y(tides_entries[i])-30)+")")
+				// .attr("x",x_dates_linear(dates[i])).attr("y",y(tides_entries[i])-30);
+				tooltip.select("polygon.container-pointer")
+				// .attr("x",x_dates_linear(dates[i])).attr("y",y(tides_entries[i])-30);
+				.attr("points",(x_dates_linear(dates[i]))+","+(y(tides_entries[i])-10)+" "
+								+(x_dates_linear(dates[i]) -4)+","+(y(tides_entries[i])-21)+" "
+								+(x_dates_linear(dates[i]) +4)+","+(y(tides_entries[i])-21));
+		
 		}
 		else{
 			tooltip.style("display","none");

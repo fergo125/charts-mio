@@ -124,9 +124,25 @@ body{
 	stroke-width: 2;
 	stroke:#29BFFF;
 }
-.tooltip rect{
+.tooltip polygon,rect{
   fill: #4F595E;
+  opacity: 0.9;
 }
 .tooltip text{
   color: #FFF;
+  fill: #FFF;
+}
+
+.tooltip circle{
+  fill:#0097E2;
+}
+
+.inner-circle{
+  opacity: 0.9;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.outer-circle{
+  opacity: 0.2;
 }
